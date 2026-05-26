@@ -1,36 +1,36 @@
 # CIVIL-534 Course Project
 
-This repository contains the group project for the course *CIVIL-534: Computational Systems Thinking for Sustainable Engineering*.
+Group project for *CIVIL-534: Computational Systems Thinking for Sustainable Engineering*.
 
-The project is organized into two main parts:
+**Authors:** Zhiyan Ke, Xun Yang, Yizhi Zhao
+**Final report:** [CIVIL_534_final_report (5).pdf](CIVIL_534_final_report%20%285%29.pdf)
 
-* **milestone_part1/**: World2 model characterization, including parameter analysis and system behavior exploration.
-* **milestone_part2/**: World3-based automated policy design, including policy screening, grid search, and sustainability evaluation.
+The project combines **system dynamics**, **network analysis**, and **automated policy search** on the World2/World3 models to identify leverage points for sustainable development.
 
-Each folder contains a self-contained notebook along with the corresponding input data and output results.
+## Repository Structure
 
+* **milestone_part1/** — World2 parameter characterisation (sensitivity, leverage screening, synergy check).
+* **milestone_part2/** — World3 milestone policy design (indicator/lever screening, sustainability score, grid search).
+* **final/** — Final deliverable: network analysis + refined policy search.
+* **pyworld2-main/**, **pyworld3-main/** — Upstream simulation libraries used by the notebooks.
+* **src/** — Shared helper code.
 
-## Part 1 — World2 Parameter Characterisation
+## Notebooks
 
-**Notebook:** [milestone_part1/world2_parameter_tests.ipynb](milestone_part1/world2_parameter_tests.ipynb)
+| Notebook | Content |
+|----------|---------|
+| [milestone_part1/world2_parameter_tests.ipynb](milestone_part1/world2_parameter_tests.ipynb) | World2 ±20% scenarios, leverage screening, policy synergy. |
+| [milestone_part2/part2.ipynb](milestone_part2/part2.ipynb) | World3 milestone pipeline: indicator/lever screening, 600-scenario grid search. |
+| [final/network_analysis.ipynb](final/network_analysis.ipynb) | World3 graph (316 nodes, 507 edges): centrality, cycles, Louvain communities, k-core. |
+| [final/candidates_selection.ipynb](final/candidates_selection.ipynb) | Network-based leverage-point screen for policy variables. |
+| [final/policy_design.ipynb](final/policy_design.ipynb) | 500-scenario exhaustive grid search over network-selected levers. |
 
-Eight directional scenarios test how World2 responds to ±20% shifts in four key parameters: capital investment rate, birth rate, death rate, and pollution production rate. The notebook extends this with:
+## Headline Result
 
-- **Leverage-point screening** across seven parameters (BRN, DRN, CIGN, CIDN, NRUN, POLN, FC)
-- **Policy synergy check** — whether combined interventions differ from the sum of individual effects
+Optimal policy: `pyear = 1985, icor2 = 4.0, ppgf2 = 0.10, nruf2 = 0.10` → sustainability score **0.764** vs baseline **0.390** (+96%).
 
-**Key outputs:** time-series comparison across population / pollution / resources / quality-of-life, summary heatmap, and a QoL-sensitivity tornado chart.
+See the [final report](CIVIL_534_final_report%20%285%29.pdf) for the full analysis, the refined sustainability metric, and discussion.
 
-## Part 2 — World3 Automated Policy Design
+## Environment
 
-**Notebook:** [milestone_part2/part2.ipynb](milestone_part2/part2.ipynb)
-
-A full data-driven pipeline that finds sustainability-maximising World3 policies:
-
-1. **Indicator screening** — 14 candidate output variables → 4 selected via collapse-magnitude, correlation (|r|>0.85 pruned), and discrimination-power analysis
-2. **Control-variable screening** — 8 candidate policy levers → 4 kept via single-parameter sensitivity scan
-3. **Sustainability score** (defined in [sustainability_score.md](sustainability_score.md)): weighted sum of natural-resource, pollution, life-expectancy, and population sub-scores
-4. **Grid search** — 600 scenarios over `{nruf2, ppgf2, dcfsn, pyear}`
-5. **Analysis** — tornado chart, score distribution, optimal-vs-baseline trajectories, parameter-interaction heatmap
-
-**Optimal policy found:** `nruf2=0.20, ppgf2=0.10, dcfsn=3.0, pyear=1975` → sustainability score **0.88** vs baseline **0.39**.
+Conda environment specification in [environment.yml](environment.yml).
